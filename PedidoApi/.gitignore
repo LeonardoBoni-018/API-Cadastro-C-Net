@@ -1,0 +1,58 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+.vscode/
+
+.idea/
+
+*.log
+
+# NuGet
+*.nupkg
+packages/
+
+*.mdf
+*.ldf
+
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets
+appsettings.Development.json
+secrets.json
+
+# User Secrets
+**/secrets.json
+
+# Docker
+docker-compose.override.yml
+
+# Publish
+publish/
+out/
+
+# Coverage
+coverage/
+TestResults/
+
+.DS_Store
+Thumbs.db
+
+node_modules/
+dist/
+build/
+
+.env
+.env.*
+
+_ReSharper*/
+*.DotSettings.user
