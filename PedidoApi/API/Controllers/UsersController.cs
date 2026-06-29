@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PedidoApi.Infrastructure.Persistence;
+using PedidoApi.Application.Services;
 
 namespace PedidoApi.API.Controllers;
 
@@ -10,35 +9,31 @@ namespace PedidoApi.API.Controllers;
 [Authorize]
 public class UsersController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly UserService _service;
 
-    public UsersController(AppDbContext context)
+    public UsersController(UserService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var users = await _context.Users
-            .OrderBy(u => u.Name)
-            .ToListAsync();
+        var users = await _service.GetAllAsync();
         return Ok(users);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _service.GetByIdAsync(id);
         return user is null ? NotFound() : Ok(user);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
     {
-        var user = new User(request.Name, request.Email);
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        var user = await _service.CreateAsync(request.Name, request.Email);
         return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
     }
 

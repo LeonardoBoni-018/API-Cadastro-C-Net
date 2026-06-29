@@ -8,4 +8,12 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.Property(e => e.Value).HasColumnType("decimal(18,2)");
+        });
+    }
 }

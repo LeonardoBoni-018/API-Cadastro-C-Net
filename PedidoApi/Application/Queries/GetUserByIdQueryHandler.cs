@@ -1,20 +1,18 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using PedidoApi.Infrastructure.Persistence;
 
 namespace PedidoApi.Application.Queries;
 
 public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User?>
 {
-    private readonly AppDbContext _context;
+    private readonly IUserRepository _repository;
 
-    public GetUserByIdQueryHandler(AppDbContext context)
+    public GetUserByIdQueryHandler(IUserRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<User?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Users.FindAsync(new object[] { request.Id }, cancellationToken);
+        return await _repository.GetByIdAsync(request.Id, cancellationToken);
     }
 }

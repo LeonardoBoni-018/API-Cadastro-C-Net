@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,15 +6,24 @@ using System.Text;
 
 namespace PedidoApi.API.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class AuthController : ControllerBase
 {
+    private readonly IConfiguration _configuration;
+
+    public AuthController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
         if (request.Email != "admin@gmail.com" || request.Password != "123")
             return Unauthorized("Credenciais inválidas.");
-        
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("K8xN4qP7mT2vR9cY5jL3wZ6uH1sD8eFa"));
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(

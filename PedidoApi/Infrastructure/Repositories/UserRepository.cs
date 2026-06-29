@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-// using PedidoApi.Domain.Repositories;
 using PedidoApi.Infrastructure.Persistence;
 
 namespace PedidoApi.Infrastructure.Repositories;
@@ -13,15 +12,20 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User?> GetByIdAsync(int id)
+    public async Task<List<User>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FindAsync(id);
+        return await _context.Users.OrderBy(u => u.Name).ToListAsync(cancellationToken);
     }
 
-    public async Task<User> SaveAsync(User user)
+    public async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.FindAsync(new object[] { id }, cancellationToken);
+    }
+
+    public async Task<User> SaveAsync(User user, CancellationToken cancellationToken = default)
     {
         _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
         return user;
     }
 }

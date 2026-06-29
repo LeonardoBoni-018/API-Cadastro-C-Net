@@ -1,23 +1,19 @@
 using MediatR;
-using PedidoApi.Infrastructure.Persistence;
 
 namespace PedidoApi.Application.Commands;
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
 {
-    private readonly AppDbContext _dbContext;
-    public CreateUserCommandHandler(AppDbContext dbContext)
+    private readonly IUserRepository _repository;
+
+    public CreateUserCommandHandler(IUserRepository repository)
     {
-        _dbContext = dbContext;
+        _repository = repository;
     }
 
     public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var user = new User(request.Name, request.Email);
-
-        _dbContext.Users.Add(user);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
-        return user;
+        return await _repository.SaveAsync(user, cancellationToken);
     }
 }

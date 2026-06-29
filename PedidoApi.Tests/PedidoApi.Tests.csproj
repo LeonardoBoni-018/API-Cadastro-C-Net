@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PedidoApi.csproj" />
+    <ProjectReference Include="..\PedidoApi\PedidoApi.csproj" />
   </ItemGroup>
 
 </Project>

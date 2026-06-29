@@ -1,5 +1,3 @@
-// using PedidoApi.Domain.Repositories;
-
 namespace PedidoApi.Application.Services;
 
 public class UserService
@@ -9,6 +7,11 @@ public class UserService
     public UserService(IUserRepository repository)
     {
         _repository = repository;
+    }
+
+    public async Task<List<User>> GetAllAsync()
+    {
+        return await _repository.GetAllAsync();
     }
 
     public async Task<User?> GetByIdAsync(int id)

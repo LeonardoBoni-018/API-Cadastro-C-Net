@@ -1,5 +1,6 @@
 public interface IUserRepository
 {
-    Task<User?> GetByIdAsync(int id);
-    Task<User> SaveAsync(User user);
+    Task<List<User>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<User> SaveAsync(User user, CancellationToken cancellationToken = default);
 }
