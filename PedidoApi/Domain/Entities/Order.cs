@@ -2,7 +2,7 @@ public class Order
 {
     public int Id {get; set;}
 
-    public decimal value {get; set;}
+    public decimal Value {get; set;}
 
     public int UserId {get; set;}
 
