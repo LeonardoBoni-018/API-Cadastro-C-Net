@@ -42,6 +42,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<PedidoApi.API.Middleware.RequestLogMiddleware>();
 
 var summaries = new[]
 {
