@@ -1,5 +1,5 @@
 public interface IUserRepository
 {
-    Task<User> GetUserByIdAsync(int id);
-    Task<User> SaveUserAsync(User user);
+    Task<User?> GetByIdAsync(int id);
+    Task<User> SaveAsync(User user);
 }
